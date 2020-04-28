@@ -24,19 +24,20 @@
       </ul>
     </nav>
   </header>
+  <!-- <div class="loader">Loading...</div> -->
   <main>
     <div class="f-container" id="deckModel">
       <!-- 左側 -->
       <div class="f-side">
         <div class="deck-container">
           <!-- デッキコード入力欄 -->
-          <div class="f-contents" style="width: 270px;">
+          <div class="f-side-contents" style="width: 270px;">
             <span class="deck-summary-item-label">デッキコード</span>
             <input class="deck-code-input" id="deckCode" type="text" placeholder="code" maxlength="4" onkeydown="onEnterKeyDown();">
             <button class="deck-code-button" type="button" onclick="getDeckData();">取得</button>
           </div>
           <!-- デッキリスト -->
-          <div class="f-contents" v-if="deck.isSet" v-cloak>
+          <div class="f-side-contents" v-if="deck.isSet" v-cloak>
             <div class="deck-detail-side">
               <ul>
                 <div v-for="card in deck.cardList">
@@ -55,8 +56,8 @@
                       <p class="el-card-list-info-count">×{{card.card_ct}}</p>
                       <p class="el-card-list-link">
                         <a class="el-icon-search is-small tooltipify" v-bind:href="`https://shadowverse-portal.com/card/${card.card_id}`" target="_blank" v-bind:data-card-tribe-name="`${card.tribe_name}`" v-bind:data-card-atk="`${card.atk}`" v-bind:data-card-evo-atk="`${card.evo_atk}`"
-                          v-bind:data-card-life="`${card.life}`" v-bind:data-card-evo-life="`${card.evo_life}`" v-bind:data-card-name="`${card.card_name}`" v-bind:data-card-skill-disc="`${card.skill_disc}`" v-bind:data-card-char-type="`${card.char_type}`"
-                          v-bind:data-card-src="`https://shadowverse-portal.com/image/card/phase2/common/C/C_${card.card_id}.png`" v-bind:data-card-name-src="`https://shadowverse-portal.com/image/card/phase2/ja/N/N_${card.card_id}.png`">
+                          v-bind:data-card-life="`${card.life}`" v-bind:data-card-evo-life="`${card.evo_life}`" v-bind:data-card-name="`${card.card_name}`" v-bind:data-card-skill-disc="`${card.skill_disc}`" v-bind:data-card-evo-skill-disc="`${card.evo_skill_disc}`"
+                          v-bind:data-card-char-type="`${card.char_type}`" v-bind:data-card-src="`https://shadowverse-portal.com/image/card/phase2/common/C/C_${card.card_id}.png`" v-bind:data-card-name-src="`https://shadowverse-portal.com/image/card/phase2/ja/N/N_${card.card_id}.png`">
                           <i class="icon-search is-small"></i>
                         </a>
                       </p>
@@ -67,163 +68,190 @@
               </ul>
             </div>
           </div>
-        </div>
-        <!-- カードツールチップ-->
-        <div id="tooltip" class="bl-tooltip clearfix">
-          <div class="l-left bl-tooltip-container">
-            <div class="bl-tooltip-image-wrapper">
-              <div class="bl-tooltip-image">
-                <img class="is-invisible" data-card-src="" src="" alt="" />
-                <div class="bl-tooltip-cardname" id="tooltipCardname">
-                  <img data-card-name-src="" src="" alt="" />
+          <div id="tooltip" class="bl-tooltip clearfix" style="position: fixed; top: auto; left: auto; visibility: hidden; opacity: 0; bottom: auto; right: auto;">
+            <div class="l-left bl-tooltip-container">
+              <div class="bl-tooltip-image-wrapper">
+                <div class="bl-tooltip-image">
+                  <img class="" data-card-src="" src="" alt="">
+                  <div class="bl-tooltip-cardname space-default" id="tooltipCardname">
+                    <img data-card-name-src="" src="" alt="">
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="l-right bl-tooltip-container">
-            <div class="bl-tooltip-header">
-              <p class="bl-tooltip-card-name" data-card-name=""></p>
-              <p class="bl-tooltip-card-tribe-name"><span class="bl-tooltip-card-tribe-name-label">TYPE: </span><span data-card-tribe-name=""></span></p>
-            </div>
-            <div class="bl-tooltip-card-detail">
-              <div class="bl-tooltip-card-meta clearfix js-tooltip-visible-state">
-                <i class="el-label-card-state is-small l-left">進化前</i>
-                <p class="bl-tooltip-card-status l-right">
-                  <span class="el-card-status is-atk is-small" data-card-atk=""></span>
-                  <span class="el-card-status is-life is-small" data-card-life=""></span>
-                </p>
+            <div class="l-right bl-tooltip-container">
+              <div class="bl-tooltip-header">
+                <p class="bl-tooltip-card-name" data-card-name=""></p>
+                <p class="bl-tooltip-card-tribe-name"><span class="bl-tooltip-card-tribe-name-label">TYPE: </span><span data-card-tribe-name=""></span></p>
               </div>
-              <div class="bl-tooltip-card-description">
-                <p class="bl-tooltip-card-text" data-card-skill-disc="">
-                </p>
+              <div class="bl-tooltip-card-detail">
+                <div class="bl-tooltip-card-meta clearfix js-tooltip-visible-state">
+                  <i class="el-label-card-state is-small l-left">進化前</i>
+                  <p class="bl-tooltip-card-status l-right">
+                    <span class="el-card-status is-atk is-small" data-card-atk=""></span>
+                    <span class="el-card-status is-life is-small" data-card-life=""></span>
+                  </p>
+                </div>
+                <div class="bl-tooltip-card-description">
+                  <p class="bl-tooltip-card-text" data-card-skill-disc=""></p>
+                </div>
               </div>
-            </div>
-            <div class="bl-tooltip-card-detail js-tooltip-visible-state">
-              <div class="bl-tooltip-card-meta clearfix">
-                <i class="el-label-card-state is-small l-left">進化後</i>
-                <p class="bl-tooltip-card-status l-right">
-                  <span class="el-card-status is-atk is-small" data-card-evo-atk=""></span>
-                  <span class="el-card-status is-life is-small" data-card-evo-life=""></span>
-                </p>
-              </div>
-              <div class="bl-tooltip-card-description">
-                <p class="bl-tooltip-card-text" data-card-evo-skill-disc="">
-                </p>
+              <div class="bl-tooltip-card-detail js-tooltip-visible-state">
+                <div class="bl-tooltip-card-meta clearfix">
+                  <i class="el-label-card-state is-small l-left">進化後</i>
+                  <p class="bl-tooltip-card-status l-right">
+                    <span class="el-card-status is-atk is-small" data-card-evo-atk=""></span>
+                    <span class="el-card-status is-life is-small" data-card-evo-life=""></span>
+                  </p>
+                </div>
+                <div class="bl-tooltip-card-description">
+                  <p class="bl-tooltip-card-text" data-card-evo-skill-disc=""></p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- 右側 -->
-      <div class="f-contents test" style="width: 500px;">
-        <div style="width: 500px;">
+      <div class="f-contents">
+        <div>
           <ul class="tab2">
             <li class="tab2__item on"><span class="tab2__link" data-tab-body="1">デッキ情報</span></li>
-            <li class="tab2__item"><span class="tab2__link" data-tab-body="2">タブ２</span></li>
+            <li class="tab2__item"><span class="tab2__link" data-tab-body="2">マリガンシミュレータ</span></li>
             <li class="tab2__item"><span class="tab2__link" data-tab-body="3">タブ３</span></li>
-            <li class="tab2__item"><span class="tab2__link" data-tab-body="4">タブ４</span></li>
-            <li class="tab2__item"><span class="tab2__link" data-tab-body="5">タブ５</span></li>
           </ul>
           <div class="tab2-body">
             <div class="tab2-body__item tab2-body__item--1 on">
-              <!-- クラス -->
-              <div class="" v-if="deck.isSet" v-cloak style="width: 270px;">
-                <div class="deck-summary-red-ether clearfix">
-                  <p class="deck-summary-item">
-                    <span class="deck-summary-item-label">クラス: </span>{{ info.clan[deck.clan] }}
-                  </p>
-                  <p class="deck-summary-item">
-                    <span class="deck-summary-item-label">生成: </span>{{ deck.sumOfRedEthers.toLocaleString() }}
-                  </p>
+              <div class="tab-f-container">
+                <!-- コストグラフ -->
+                <div class="tab-f-contents" style="padding-left: 15px;">
+                  <div style="text-align: center;">
+                    <div class="deck-summary-cost" v-if="deck.isSet" v-cloak>
+                      <ul class="el-graph-cost-count">
+                        <li class="el-graph-cost-count-item" v-for="cost in deck.costGraph">{{ cost }}</li>
+                      </ul>
+                      <ul class="el-graph-cost-amount">
+                        <li class="el-graph-cost" v-for="cost in deck.costGraph">
+                          <i class="el-graph-cost-item is-anim" v-bind:class="`el-graph-cost-${cost}`"></i>
+                        </li>
+                      </ul>
+                      <ul class="el-graph-cost-mark">
+                        <li class="is-less-than">
+                          <i class="icon-graph-cost is-graph-1 is-minus"></i>
+                        </li>
+                        <li>
+                          <i class="icon-graph-cost is-graph-2"></i>
+                        </li>
+                        <li>
+                          <i class="icon-graph-cost is-graph-3"></i>
+                        </li>
+                        <li>
+                          <i class="icon-graph-cost is-graph-4"></i>
+                        </li>
+                        <li>
+                          <i class="icon-graph-cost is-graph-5"></i>
+                        </li>
+                        <li>
+                          <i class="icon-graph-cost is-graph-6"></i>
+                        </li>
+                        <li>
+                          <i class="icon-graph-cost is-graph-7"></i>
+                        </li>
+                        <li class="is-greater-than">
+                          <i class="icon-graph-cost is-graph-8 is-plus"></i>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- クラス -->
+                <div class="tab-f-contents">
+                  <div v-if="deck.isSet" v-cloak style="text-align: left; padding-left: 20px;">
+                    <div class="deck-summary-red-ether">
+                      <p class="deck-summary-item">
+                        <span class="deck-summary-item-label ">クラス: </span>{{ info.clan[deck.clan] }}
+                      </p>
+                      <p class="deck-summary-item">
+                        <span class="deck-summary-item-label ">生成: </span>{{ deck.sumOfRedEthers.toLocaleString() }}
+                      </p>
+                    </div>
+                  </div>
+                  <!-- カードタイプ -->
+                  <div v-if="deck.isSet" v-cloak>
+                    <div class="deck-summary-card-type">
+                      <p class="deck-summary-card-type-status" v-for="charType in info.charTypes">{{ deck.cardCountsByCharType[charType] }}
+                        <span class="deck-summary-card-type-status-label">{{ charType }}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- 円グラフ -->
+                <div class="tab-f-contents">
+                  <div id="charTypeChart"></div>
+                </div>
+                <div class="tab-f-contents">
+                  <div id="rarityChart"></div>
+                </div>
+                <div class="tab-f-contents">
+                  <div id="tribeTypeChart"></div>
                 </div>
               </div>
-              <!-- コストグラフ -->
-              <div class="" v-if="deck.isSet" v-cloak>
-                <div class="deck-summary-cost">
-                  <ul class="el-graph-cost-count">
-                    <li class="el-graph-cost-count-item" v-for="cost in deck.costGraph">{{ cost }}</li>
-                  </ul>
-                  <ul class="el-graph-cost-amount">
-                    <li class="el-graph-cost" v-for="cost in deck.costGraph">
-                      <i class="el-graph-cost-item is-anim" v-bind:class="`el-graph-cost-${cost}`"></i>
-                    </li>
-                  </ul>
-                  <ul class="el-graph-cost-mark">
-                    <li class="is-less-than">
-                      <i class="icon-graph-cost is-graph-1 is-minus"></i>
-                    </li>
-                    <li>
-                      <i class="icon-graph-cost is-graph-2"></i>
-                    </li>
-                    <li>
-                      <i class="icon-graph-cost is-graph-3"></i>
-                    </li>
-                    <li>
-                      <i class="icon-graph-cost is-graph-4"></i>
-                    </li>
-                    <li>
-                      <i class="icon-graph-cost is-graph-5"></i>
-                    </li>
-                    <li>
-                      <i class="icon-graph-cost is-graph-6"></i>
-                    </li>
-                    <li>
-                      <i class="icon-graph-cost is-graph-7"></i>
-                    </li>
-                    <li class="is-greater-than">
-                      <i class="icon-graph-cost is-graph-8 is-plus"></i>
-                    </li>
-                  </ul>
-                </div>
+            </div>
+          </div>
+          <div class="tab2-body__item tab2-body__item--2">
+            <div class="tab-f-container">
+              <div class="tab-f-contents" style="width: 100%; height: 300px; padding-top: 20px;">
+                <table>
+                  <tr>
+                    <td v-for="(hand,index) in simulation.hands">
+                      <div class="bl-tooltip-image card-base fade-in">
+                        <img v-bind:src="`https://shadowverse-portal.com/image/card/phase2/common/C/C_${hand.card_id}.png`" alt="">
+                        <div class="bl-tooltip-cardname space-default card-name">
+                          <img v-bind:src="`https://shadowverse-portal.com/image/card/phase2/ja/N/N_${hand.card_id}.png`" alt="">
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
               </div>
-              <!-- カードタイプ -->
-              <div class="" v-if="deck.isSet" v-cloak>
-                <div class="deck-summary-card-type">
-                  <p class="deck-summary-card-type-status" v-for="char in info.charType" style="text-align: center;">{{ deck.cardCountsByCharType[char] }}
-                    <span class="deck-summary-card-type-status-label">{{ char }}</span>
-                  </p>
-                </div>
+              <div class="tab-f-contents">
+                <button onclick="doMulligan();" style="color: black;">マリガン</button>
               </div>
-              <div id="charTypeChart"></div>
-              <div id="tribeTypeChart"></div>
             </div>
-            <div class="tab2-body__item tab2-body__item--2">
-              タブのコンテンツ２
-            </div>
-            <div class="tab2-body__item tab2-body__item--3">
-              タブのコンテンツ３
-            </div>
-            <div class="tab2-body__item tab2-body__item--4">
-              タブのコンテンツ４
-            </div>
-            <div class="tab2-body__item tab2-body__item--5">
-              タブのコンテンツ５
-            </div>
+          </div>
+          <div class="tab2-body__item tab2-body__item--3">
+            タブのコンテンツ３
+          </div>
+          <div class="tab2-body__item tab2-body__item--4">
+            タブのコンテンツ４
+          </div>
+          <div class="tab2-body__item tab2-body__item--5">
+            タブのコンテンツ５
           </div>
         </div>
       </div>
     </div>
   </main>
-
-  <footer class="text">
+  <footer>
     <nav>
-      <p style="text-align: center; margin: 0;">© Cygames, Inc.</p>
+      <p style="text-align: center;">© Cygames, Inc.</p>
     </nav>
   </footer>
-  <script src="https://shadowverse-portal.com/public/assets/js/jquery/index.js"></script>
-  <script src="https://shadowverse-portal.com/public/assets/js/jquery.langswitcher/index.js"></script>
-  <script src="https://shadowverse-portal.com/public/assets/js/jquery.popupfactory/index.js"></script>
-  <script src="https://shadowverse-portal.com/public/assets/js/common/index.js"></script>
-  <script src="https://shadowverse-portal.com/public/assets/js/jquery.tooltipify/index.js"></script>
-  <script src="https://shadowverse-portal.com/public/assets/js/deck/index.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js" charset="utf-8"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.15/c3.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://shadowverse-portal.com/public/assets/js/jquery/index.js "></script>
+  <script src="https://shadowverse-portal.com/public/assets/js/jquery.langswitcher/index.js "></script>
+  <script src="https://shadowverse-portal.com/public/assets/js/jquery.popupfactory/index.js "></script>
+  <script src="https://shadowverse-portal.com/public/assets/js/common/index.js "></script>
+  <script src="https://shadowverse-portal.com/public/assets/js/jquery.tooltipify/index.js "></script>
+  <script src="https://shadowverse-portal.com/public/assets/js/deck/index.js "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js " charset="utf-8 "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.15/c3.min.js "></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
 
-  <script src="chart.js"></script>
-  <script src="vm.js"></script>
-  <script src="SVPortalAPI.js"></script>
-  <script src="app.js"></script>
+  <script src="chart.js "></script>
+  <script src="vm.js "></script>
+  <script src="SVPortalAPI.js "></script>
+  <script src="app.js "></script>
+  <script src="mulliganSimulation.js"></script>
 </body>
 
 </html>

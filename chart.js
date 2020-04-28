@@ -3,16 +3,6 @@ function getCharTypeChartData() {
     for (let key in deck.deck.cardCountsByCharType) {
         data.push([key, deck.deck.cardCountsByCharType[key]]);
     }
-    console.log(data);
-    return data;
-}
-
-function getTribeTypeChartData() {
-    let data = [];
-    for (let key in deck.deck.cardCountsByTribeType) {
-        data.push([key, deck.deck.cardCountsByTribeType[key]]);
-    }
-    console.log(data);
     return data;
 }
 
@@ -21,14 +11,25 @@ function generateCharTypeChart() {
         bindto: '#charTypeChart',
         data: {
             columns: getCharTypeChartData(),
-            type: 'pie',
+            type: 'donut',
         },
         size: {
-            height: 200,
-            width: 200
+            width: 250,
+            height: 300
+        },
+        donut: {
+            title: "カード種別編成率"
         }
     });
     return charTypeChart;
+}
+
+function getTribeTypeChartData() {
+    let data = [];
+    for (let key in deck.deck.cardCountsByTribeType) {
+        data.push([key, deck.deck.cardCountsByTribeType[key]]);
+    }
+    return data;
 }
 
 function generateTribeTypeChart() {
@@ -36,12 +37,41 @@ function generateTribeTypeChart() {
         bindto: '#tribeTypeChart',
         data: {
             columns: getTribeTypeChartData(),
-            type: 'pie',
+            type: 'donut',
         },
         size: {
-            height: 200,
-            width: 200
+            width: 250,
+            height: 300,
+        },
+        donut: {
+            title: "タイプ別編成率"
         }
     });
     return tribeChart;
+}
+
+function getRarityChartData() {
+    let data = [];
+    for (let key in deck.deck.cardCountsByRarity) {
+        data.push([key, deck.deck.cardCountsByRarity[key]]);
+    }
+    return data;
+}
+
+function generateRarityChart() {
+    let rarityChart = c3.generate({
+        bindto: '#rarityChart',
+        data: {
+            columns: getRarityChartData(),
+            type: 'donut',
+        },
+        size: {
+            width: 250,
+            height: 300,
+        },
+        donut: {
+            title: "レアリティ別編成率"
+        }
+    });
+    return rarityChart;
 }

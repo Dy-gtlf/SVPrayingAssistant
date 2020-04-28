@@ -1,21 +1,30 @@
 async function getDeckData() {
     var element = document.getElementById("deckCode");
-    res = await SVPortalAPI.fetchDeck(element.value);
-    deck.$set(deck, 'deck', res.data.deck)
-    deck.init();
+    try {
+        alert('デッキインポート開始');
+        res = await SVPortalAPI.fetchDeck(element.value);
+        deck.$set(deck, 'deck', res.data.deck)
+        deck.init();
+        alert('デッキインポート成功');
+    } catch (error) {
+        alert('デッキインポート失敗');
+    }
 }
 
-// await SVPortalAPI.fetchDeck('nzbs')
+// await SVPortalAPI.fetchDeck('abcd');
 
 function onEnterKeyDown() {
-    if (event.keyCode === 13) {
+    let activeElement = document.activeElement;
+    if (event.keyCode === 13 && activeElement.id == 'deckCode') {
         getDeckData();
-        document.activeElement.blur();
+        activeElement.blur();
     }
 }
 
 // デッキコード欄にフォーカス
 $('input').first().focus();
+
+// タブ
 document.addEventListener('DOMContentLoaded', function() {
     var $tab__link = $(".tab2__link");
     var $tab_body_item = $(".tab2-body__item");

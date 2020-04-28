@@ -8,7 +8,7 @@
 
 .deck-code-input {
   color: black;
-  margin-left: 10px;
+  margin-left: 23px;
   margin-bottom: 10px;
   width: 80px;
   text-align: center;
@@ -51,12 +51,20 @@
   margin-left: 0;
 }
 
-
-/* ナビゲーションバー */
-
-.test {
+.test-blue {
   border: solid 1px blue;
 }
+
+.test-red {
+  border: solid 1px red;
+}
+
+.test-green {
+  border: solid 1px green;
+}
+
+
+/* ナビゲーションバー */
 
 nav {
   background-color: #222222;
@@ -66,6 +74,7 @@ nav {
 nav ul {
   display: flex;
   flex-flow: row;
+  flex-grow: 1;
   margin: 0;
   list-style-type: none;
   flex-wrap: nowrap;
@@ -88,15 +97,43 @@ nav li a:hover {
 .f-container {
   display: flex;
   flex-grow: 1;
+  justify-content: center;
+  min-width: 950px;
+  height: 100vh;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .f-side {
   width: 320px;
-  padding: 20px;
+  border-left: solid gray 2px;
+}
+
+.f-side-contents {
+  flex: 1;
 }
 
 .f-contents {
-  flex: 1;
+  width: 650px;
+  border-left: solid gray 2px;
+  border-right: solid gray 2px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.tab-f-container {
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
+.tab-f-contents {
+  width: 50%;
+  justify-content: center;
+  margin: auto;
+  align-items: center;
+  text-align: center;
+  max-height: 300px;
 }
 
 body {
@@ -145,7 +182,7 @@ main {
 }
 
 .tab2-body__item {
-  margin: 30px 15px;
+  margin-top: 10px;
   display: none;
   /* text-align: center; */
 }
@@ -164,4 +201,131 @@ main {
 
 .c3-chart-arc path {
   stroke: none !important;
+}
+
+.c3-chart-arcs-title {
+  fill: white;
+}
+
+
+/* loading */
+
+.loader {
+  font-size: 10px;
+  margin: 50px auto;
+  text-indent: -9999em;
+  width: 11em;
+  height: 11em;
+  border-radius: 50%;
+  background: #ffffff;
+  background: -moz-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+  background: -webkit-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+  background: -o-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+  background: -ms-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+  background: linear-gradient(to right, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+  position: relative;
+  -webkit-animation: load3 1.4s infinite linear;
+  animation: load3 1.4s infinite linear;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  min-width: 100px;
+  /*中央配置するボックスの横幅*/
+  min-height: 100px;
+  /*中央配置するボックスの縦幅*/
+  top: 50%;
+  /*上端を中央に*/
+  left: 50%;
+  margin: -50px 0 0 -50px;
+}
+
+.loader-bg {
+  background-color: gray;
+  opacity: 0.9;
+  min-width: 100%;
+  min-height: 100%;
+  position: fixed;
+  z-index: 9998;
+}
+
+.loader:before {
+  width: 50%;
+  height: 50%;
+  background: #ffffff;
+  border-radius: 100% 0 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+}
+
+.loader:after {
+  background: gray;
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  content: '';
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+@-webkit-keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.card-base {
+  position: relative;
+}
+
+.card-name {
+  position: absolute;
+  top: 30px !important;
+  left: 52px !important;
+  width: 117px;
+  height: 12px;
+}
+
+.fade-in {
+  opacity: 0;
+  animation-name: fadeIn;
+  animation-delay: 0;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

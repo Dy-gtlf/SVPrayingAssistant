@@ -8,13 +8,18 @@ var deck = new Vue({
             costGraph: {},
             cardCountsByCharType: {},
             cardCountsByTribeType: {},
+            cardCountsByRarity: {},
             sumOfRedEthers: 0,
-            isSet: false
+            isSet: false,
         },
         info: {
             clan: ['ニュートラル', 'エルフ', 'ロイヤル', 'ウィッチ', 'ドラゴン', 'ネクロマンサー', 'ヴァンパイア', 'ビショップ', 'ネメシス'],
             charTypes: ['フォロワー', 'アミュレット', 'スペル'],
-            tribeTypes: ['-', '兵士', '指揮官', '土の印', 'マナリア', 'アーティファクト', '財宝', '機械', 'レヴィオン', '自然', '機械・自然']
+            tribeTypes: ['-', '兵士', '指揮官', '土の印', 'マナリア', 'アーティファクト', '財宝', '機械', 'レヴィオン', '自然', '機械・自然'],
+            rarity: ['ブロンズ', 'シルバー', 'ゴールド', 'レジェンド']
+        },
+        simulation: {
+            hands: []
         }
     },
     methods: {
@@ -23,12 +28,15 @@ var deck = new Vue({
             this.$set(this.deck, 'isSet', true);
             this.makeCardList();
             this.makeCostGraph();
-            this.getCardCountsByCharTypes();
-            this.getCardCountsTribeTypes();
             this.getSumOfRedEthers();
+            this.getCardCountsByCharTypes();
+            this.getCardCountsByTribeTypes();
+            this.getCardCountsByRarity();
             console.log(this.deck);
             generateCharTypeChart();
             generateTribeTypeChart();
+            generateRarityChart();
+            doMulligan();
         },
         // 重複カードの除去
         makeCardList() {
@@ -73,7 +81,7 @@ var deck = new Vue({
             this.$set(this.deck, 'cardCountsByCharType', cardCountsByCharType);
         },
         // カードのタイプごとの編成数
-        getCardCountsTribeTypes() {
+        getCardCountsByTribeTypes() {
             let cardCountsByTribeType = [];
             this.deck.cardList.forEach(element => {
                 if (element.tribe_name in cardCountsByTribeType) {
@@ -83,6 +91,18 @@ var deck = new Vue({
                 }
             });
             this.$set(this.deck, 'cardCountsByTribeType', cardCountsByTribeType);
+        },
+        // カードのレアリティごとの編成数
+        getCardCountsByRarity() {
+            let cardCountsByRarity = [];
+            this.deck.cardList.forEach(element => {
+                if (element.rarity in cardCountsByRarity) {
+                    cardCountsByRarity[this.info.rarity[element.rarity - 1]] += element.card_ct;
+                } else {
+                    cardCountsByRarity[this.info.rarity[element.rarity - 1]] = element.card_ct;
+                }
+            });
+            this.$set(this.deck, 'cardCountsByRarity', cardCountsByRarity);
         },
         // 生成レッドエーテル
         getSumOfRedEthers() {
