@@ -15,11 +15,12 @@ var deck = new Vue({
         info: {
             clan: ['ニュートラル', 'エルフ', 'ロイヤル', 'ウィッチ', 'ドラゴン', 'ネクロマンサー', 'ヴァンパイア', 'ビショップ', 'ネメシス'],
             charTypes: ['フォロワー', 'アミュレット', 'スペル'],
-            tribeTypes: ['-', '兵士', '指揮官', '土の印', 'マナリア', 'アーティファクト', '財宝', '機械', 'レヴィオン', '自然', '機械・自然'],
+            tribeTypes: ['-', '兵士', '指揮官', '土の印', 'マナリア', 'アーティファクト', '財宝', '機械', 'レヴィオン', '自然', '機械・自然', '機械・指揮官'],
             rarity: ['ブロンズ', 'シルバー', 'ゴールド', 'レジェンド']
         },
         simulation: {
-            hands: []
+            hands: [],
+            cardList: []
         }
     },
     methods: {
@@ -32,7 +33,7 @@ var deck = new Vue({
             this.getCardCountsByCharTypes();
             this.getCardCountsByTribeTypes();
             this.getCardCountsByRarity();
-            console.log(this.deck);
+            this.$set(this.simulation, 'cardList', this.deck.cardList);
             generateCharTypeChart();
             generateTribeTypeChart();
             generateRarityChart();
@@ -112,5 +113,12 @@ var deck = new Vue({
             });
             this.$set(this.deck, 'sumOfRedEthers', sumOfRedEthers);
         },
+        getSumOfRestCardCount() {
+            let count = 0;
+            this.simulation.cardList.forEach(element => {
+                count += element.card_ct;
+            });
+            return count;
+        }
     }
 });

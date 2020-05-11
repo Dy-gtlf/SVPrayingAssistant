@@ -1,13 +1,14 @@
 async function getDeckData() {
     var element = document.getElementById("deckCode");
     try {
-        alert('デッキインポート開始');
+        alert('デッキのインポート開始。');
         res = await SVPortalAPI.fetchDeck(element.value);
         deck.$set(deck, 'deck', res.data.deck)
         deck.init();
-        alert('デッキインポート成功');
+        alert('デッキのインポート成功。');
     } catch (error) {
-        alert('デッキインポート失敗');
+        alert('デッキのインポート失敗。');
+        deck.$set(deck.deck, 'isSet', false);
     }
 }
 

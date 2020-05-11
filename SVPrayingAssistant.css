@@ -45,10 +45,51 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  width: 310px;
 }
 
 .deck-summary-card-type-status {
   margin-left: 0;
+}
+
+.el-rest-card-list {
+  position: relative;
+  visibility: visible;
+  width: 270px;
+  height: 46px;
+  margin-top: 2px;
+  cursor: default;
+  transition: all .35s ease 0s;
+  opacity: 1;
+  background-position: center;
+  -webkit-background-size: 30px 30px;
+  background-size: 30px;
+}
+
+.tb-cell {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  width: 50px;
+  color: white;
+}
+
+.card-button {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  color: black;
+  width: 30px;
+}
+
+.card-button-size {
+  width: 30px;
+}
+
+.draw-probability {
+  width: 80px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .test-blue {
@@ -105,8 +146,8 @@ nav li a:hover {
 }
 
 .f-side {
-  width: 320px;
-  border-left: solid gray 2px;
+  width: 310px;
+  border-left: solid gray 1px;
 }
 
 .f-side-contents {
@@ -115,16 +156,17 @@ nav li a:hover {
 
 .f-contents {
   width: 650px;
-  border-left: solid gray 2px;
-  border-right: solid gray 2px;
+  min-width: 650px;
+  border-left: solid gray 1px;
+  border-right: solid gray 1px;
   padding-left: 20px;
   padding-right: 20px;
 }
 
 .tab-f-container {
   display: flex;
-  flex-grow: 1;
   flex-wrap: wrap;
+  flex-grow: 1;
 }
 
 .tab-f-contents {
@@ -150,6 +192,25 @@ main {
 }
 
 
+/* gridコンテナ */
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 270px auto;
+  grid-template-areas: "cards conditions";
+  gap: 0px;
+  margin-top: 20px;
+}
+
+.grid-cards {
+  grid-area: cards;
+}
+
+.grid-conditions {
+  grid-area: conditions;
+}
+
+
 /* タブ */
 
 .tab2 {
@@ -170,7 +231,7 @@ main {
   color: white;
   background-color: #222222;
   cursor: pointer;
-  margin: 2px;
+  margin: 1px;
 }
 
 .tab2__link:hover {

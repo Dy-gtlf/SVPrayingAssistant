@@ -10,6 +10,10 @@ function shuffle(array) {
 }
 
 function doMulligan() {
+    if (!deck.deck.isSet) {
+        alert('デッキをインポートしてください。');
+        return;
+    }
     let cards = shuffle(Array.from(deck.deck.cards));
     let hands = [];
     let hands_ct = 0;
@@ -22,20 +26,6 @@ function doMulligan() {
     Array.from(elements).forEach((element, index) => {
         element.style.animationDelay = `${index * 0.2}s`;
         startAnimation(element);
-    });
-}
-
-function removeMulliganAnimation() {
-    let elements = document.getElementsByClassName('card-base');
-    Array.from(elements).forEach(element => {
-        element.classList.remove('fade-in');
-    });
-}
-
-function addMulliganAnimation() {
-    let elements = document.getElementsByClassName('card-base');
-    Array.from(elements).forEach(element => {
-        element.classList.add('fade-in');
     });
 }
 
