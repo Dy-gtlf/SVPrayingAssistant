@@ -33,10 +33,10 @@ var deck = new Vue({
             this.getCardCountsByCharTypes();
             this.getCardCountsByTribeTypes();
             this.getCardCountsByRarity();
-            this.$set(this.simulation, 'cardList', this.deck.cardList);
             generateCharTypeChart();
             generateTribeTypeChart();
             generateRarityChart();
+            this.$set(this.simulation, 'cardList', this.deck.cardList);
             doMulligan();
         },
         // 重複カードの除去
@@ -119,6 +119,26 @@ var deck = new Vue({
                 count += element.card_ct;
             });
             return count;
+        },
+    }
+});
+
+var simulation = new Vue({
+    el: '#simulationModel',
+    data: {
+        hands: [],
+        cardList: []
+    },
+    methods: {
+        increaseCard(index) {
+            if (this.cardList[index].card_ct < 3) {
+                this.$set(this.cardList[index], 'card_ct', this.cardList[index].card_ct + 1);
+            }
+        },
+        decreaseCard(index) {
+            if (this.cardList[index].card_ct > 0) {
+                this.$set(this.cardList[index], 'card_ct', this.cardList[index].card_ct - 1);
+            }
         }
     }
 });

@@ -225,25 +225,33 @@
             <div class="grid-container" v-if="deck.isSet" v-cloak>
               <div class="deck-detail-side grid-cards">
                 <ul>
-                  <div v-for="card in simulation.cardList">
+                  <div v-for="(card, index) in simulation.cardList">
                     <li class="el-rest-card-list is-static">
                       <div class="el-card-list-info">
                         <p class="tb-cell">×{{ card.card_ct }}</p>
                         <div class="card-button">
-                          <button class="card-button-size">+</button>
+                          <button class="card-button-size" v-bind:id="`card_${index}_plus`" v-on:click="card.card_ct += 1;">+</button>
                         </div>
                         <div class="card-button">
-                          <button class="card-button-size">-</button>
+                          <button class="card-button-size" v-bind:id="`card_${index}_minus`">-</button>
                         </div>
-                        <p class="tb-cell draw-probability">66.6%</p>
+                        <p class="tb-cell draw-probability">{{ '66.6%' }}</p>
                       </div>
                     </li>
-                    <!-- <li> </li> -->
                   </div>
                 </ul>
               </div>
-              <div class="grid-conditions">
-
+              <div class="grid-conditions test-blue">
+                <div style="padding-bottom: 10px;">
+                  <span style="padding-right: 20px;">ドロー枚数</span>
+                  <input type="number" max="10" min="1" maxlength="2" value="1" style="color: black; text-align: center;">
+                </div>
+                <div style="padding-bottom: 10px;">
+                  <span style="padding-right: 20px;">対象</span>
+                  <input type="checkbox" checked="checked">フォロワー
+                  <input type="checkbox" checked="checked">アミュレット
+                  <input type="checkbox" checked="checked">スペル
+                </div>
               </div>
             </div>
           </div>
